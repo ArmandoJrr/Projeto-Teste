@@ -189,6 +189,8 @@ begin
   begin
      DmPrincipal.NovaPessoa;
 
+     EmEdicao := False;
+
      T.Synchronize(TThread.Current, procedure
      begin
        LimparCampos;
@@ -248,6 +250,7 @@ procedure TFrmCad_Pessoas.ExcluirPessoa(ID : Integer);
 begin
   try
    DmPrincipal.QryExcluirPessoa.Close;
+   DmPrincipal.QryExcluirPessoa.ParamByName('pessoa').AsInteger := ID;
    DmPrincipal.QryExcluirPessoa.ExecSql;
 
    LimparCampos;
@@ -263,6 +266,8 @@ end;
 procedure TFrmCad_Pessoas.RectExcluirClick(Sender: TObject);
 begin
   ExcluirPessoa(DmPrincipal.QryDetalheIdPessoa.AsInteger);
+
+  RectPesquisarClick(Sender);
 end;
 
 procedure TFrmCad_Pessoas.ThreadPessoasTerminate(Sender: TObject);
@@ -285,7 +290,7 @@ begin
 
         while NOT Eof do
         begin
-          DmPrincipal.AddPessoas(DmPrincipal.QryPessoasnmprimeiro.AsString,
+          DmPrincipal.AddPessoas(DmPrincipal.QryPessoasnmprimeiro.AsString + DmPrincipal.QryPessoasnmsegundo.AsString,
                                  DmPrincipal.QryPessoasidpessoa.AsInteger);
 
           Next;
@@ -433,6 +438,8 @@ begin
     TabAbas.GotoVisibleTab(0);
 
     Mensagem.Show(TIconDialog.Success, 'Ok','Dados salvos!');
+
+    EmEdicao := False;
 
     RectPesquisarClick(Sender);
   end;

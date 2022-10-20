@@ -2,8 +2,8 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
   Left = 855
   Top = 202
   Caption = 'Cadastro de Pessoas'
-  ClientHeight = 558
-  ClientWidth = 341
+  ClientHeight = 582
+  ClientWidth = 345
   Fill.Kind = Solid
   Position = Designed
   FormFactor.Width = 320
@@ -15,18 +15,18 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
   DesignerMasterStyle = 3
   object TabAbas: TTabControl
     Align = Contents
-    Size.Width = 341.000000000000000000
-    Size.Height = 558.000000000000000000
+    Size.Width = 345.000000000000000000
+    Size.Height = 582.000000000000000000
     Size.PlatformDefault = False
     TabHeight = 49.000000000000000000
     TabIndex = 0
     TabOrder = 1
     TabPosition = None
     Sizes = (
-      341s
-      558s
-      341s
-      558s)
+      345s
+      582s
+      345s
+      582s)
     object TabPesquisar: TTabItem
       CustomIcon = <
         item
@@ -43,7 +43,7 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
       object LayTopo: TLayout
         Align = Top
         Position.Y = 49.000000000000000000
-        Size.Width = 341.000000000000000000
+        Size.Width = 345.000000000000000000
         Size.Height = 57.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 1
@@ -54,7 +54,7 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
           Margins.Top = 12.000000000000000000
           Margins.Right = 10.000000000000000000
           Margins.Bottom = 12.000000000000000000
-          Size.Width = 270.000000000000000000
+          Size.Width = 274.000000000000000000
           Size.Height = 33.000000000000000000
           Size.PlatformDefault = False
           Stroke.Kind = None
@@ -73,7 +73,7 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
             TabOrder = 0
             KeyboardType = Alphabet
             ReturnKeyType = Next
-            Size.Width = 270.000000000000000000
+            Size.Width = 274.000000000000000000
             Size.Height = 32.000000000000000000
             Size.PlatformDefault = False
             TextPrompt = 'Pesquisar...'
@@ -85,7 +85,7 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
           Margins.Top = 10.000000000000000000
           Margins.Right = 10.000000000000000000
           Margins.Bottom = 10.000000000000000000
-          Position.X = 290.000000000000000000
+          Position.X = 294.000000000000000000
           Position.Y = 10.000000000000000000
           Size.Width = 41.000000000000000000
           Size.Height = 37.000000000000000000
@@ -114,8 +114,8 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
         ItemSpaces.Left = 0.000000000000000000
         ItemSpaces.Right = 0.000000000000000000
         Align = Client
-        Size.Width = 341.000000000000000000
-        Size.Height = 452.000000000000000000
+        Size.Width = 345.000000000000000000
+        Size.Height = 476.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 2
         ItemAppearance.ItemHeight = 40
@@ -155,7 +155,7 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
       end
       object Layout1: TLayout
         Align = Top
-        Size.Width = 341.000000000000000000
+        Size.Width = 345.000000000000000000
         Size.Height = 49.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 0
@@ -163,7 +163,7 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
           Align = Contents
           StyledSettings = [Family]
           Locked = True
-          Size.Width = 341.000000000000000000
+          Size.Width = 345.000000000000000000
           Size.Height = 49.000000000000000000
           Size.PlatformDefault = False
           TextSettings.Font.Size = 16.000000000000000000
@@ -220,7 +220,7 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
           Margins.Top = 5.000000000000000000
           Margins.Right = 5.000000000000000000
           Margins.Bottom = 5.000000000000000000
-          Position.X = 286.000000000000000000
+          Position.X = 290.000000000000000000
           Position.Y = 5.000000000000000000
           Size.Width = 50.000000000000000000
           Size.Height = 39.000000000000000000
@@ -244,16 +244,16 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
       ExplicitSize.cy = 8.000000000000000000
       object VertScrollBox1: TVertScrollBox
         Align = Client
-        Size.Width = 341.000000000000000000
-        Size.Height = 459.000000000000000000
+        Size.Width = 345.000000000000000000
+        Size.Height = 483.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 1
-        Viewport.Width = 336.000000000000000000
-        Viewport.Height = 459.000000000000000000
+        Viewport.Width = 340.000000000000000000
+        Viewport.Height = 483.000000000000000000
         object LayCEP: TLayout
           Align = Top
           Position.Y = 228.000000000000000000
-          Size.Width = 336.000000000000000000
+          Size.Width = 340.000000000000000000
           Size.Height = 57.000000000000000000
           Size.PlatformDefault = False
           TabOrder = 7
@@ -264,7 +264,7 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
             Margins.Top = 12.000000000000000000
             Margins.Right = 10.000000000000000000
             Margins.Bottom = 12.000000000000000000
-            Size.Width = 316.000000000000000000
+            Size.Width = 320.000000000000000000
             Size.Height = 33.000000000000000000
             Size.PlatformDefault = False
             Stroke.Kind = None
@@ -283,7 +283,7 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
               TabOrder = 0
               KeyboardType = Alphabet
               ReturnKeyType = Next
-              Size.Width = 316.000000000000000000
+              Size.Width = 320.000000000000000000
               Size.Height = 32.000000000000000000
               Size.PlatformDefault = False
               TextPrompt = 'CEP'
@@ -296,7 +296,7 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
         object LayCidade: TLayout
           Align = Top
           Position.Y = 285.000000000000000000
-          Size.Width = 336.000000000000000000
+          Size.Width = 340.000000000000000000
           Size.Height = 57.000000000000000000
           Size.PlatformDefault = False
           TabOrder = 1
@@ -307,7 +307,7 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
             Margins.Top = 12.000000000000000000
             Margins.Right = 10.000000000000000000
             Margins.Bottom = 12.000000000000000000
-            Size.Width = 235.000000000000000000
+            Size.Width = 239.000000000000000000
             Size.Height = 33.000000000000000000
             Size.PlatformDefault = False
             Stroke.Kind = None
@@ -326,7 +326,7 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
               TabOrder = 0
               KeyboardType = Alphabet
               ReturnKeyType = Next
-              Size.Width = 235.000000000000000000
+              Size.Width = 239.000000000000000000
               Size.Height = 32.000000000000000000
               Size.PlatformDefault = False
               TextPrompt = 'Cidade'
@@ -340,7 +340,7 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
             Margins.Top = 12.000000000000000000
             Margins.Right = 10.000000000000000000
             Margins.Bottom = 12.000000000000000000
-            Position.X = 265.000000000000000000
+            Position.X = 269.000000000000000000
             Position.Y = 12.000000000000000000
             Size.Width = 61.000000000000000000
             Size.Height = 33.000000000000000000
@@ -373,7 +373,7 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
         object LayDocumento: TLayout
           Align = Top
           Position.Y = 114.000000000000000000
-          Size.Width = 336.000000000000000000
+          Size.Width = 340.000000000000000000
           Size.Height = 57.000000000000000000
           Size.PlatformDefault = False
           TabOrder = 0
@@ -384,7 +384,7 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
             Margins.Top = 12.000000000000000000
             Margins.Right = 10.000000000000000000
             Margins.Bottom = 12.000000000000000000
-            Size.Width = 316.000000000000000000
+            Size.Width = 320.000000000000000000
             Size.Height = 33.000000000000000000
             Size.PlatformDefault = False
             Stroke.Kind = None
@@ -403,7 +403,7 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
               TabOrder = 0
               KeyboardType = Alphabet
               ReturnKeyType = Next
-              Size.Width = 316.000000000000000000
+              Size.Width = 320.000000000000000000
               Size.Height = 32.000000000000000000
               Size.PlatformDefault = False
               TextPrompt = 'Documento'
@@ -415,7 +415,7 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
         object LayEndereco: TLayout
           Align = Top
           Position.Y = 342.000000000000000000
-          Size.Width = 336.000000000000000000
+          Size.Width = 340.000000000000000000
           Size.Height = 57.000000000000000000
           Size.PlatformDefault = False
           TabOrder = 4
@@ -426,7 +426,7 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
             Margins.Top = 12.000000000000000000
             Margins.Right = 10.000000000000000000
             Margins.Bottom = 12.000000000000000000
-            Size.Width = 316.000000000000000000
+            Size.Width = 320.000000000000000000
             Size.Height = 33.000000000000000000
             Size.PlatformDefault = False
             Stroke.Kind = None
@@ -445,7 +445,7 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
               TabOrder = 0
               KeyboardType = Alphabet
               ReturnKeyType = Next
-              Size.Width = 316.000000000000000000
+              Size.Width = 320.000000000000000000
               Size.Height = 32.000000000000000000
               Size.PlatformDefault = False
               TextPrompt = 'Endere'#231'o \ Logradouro'
@@ -456,7 +456,7 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
         object LayNatureza: TLayout
           Align = Top
           Position.Y = 171.000000000000000000
-          Size.Width = 336.000000000000000000
+          Size.Width = 340.000000000000000000
           Size.Height = 57.000000000000000000
           Size.PlatformDefault = False
           TabOrder = 5
@@ -468,7 +468,7 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
             Margins.Top = 12.000000000000000000
             Margins.Right = 10.000000000000000000
             Margins.Bottom = 12.000000000000000000
-            Size.Width = 316.000000000000000000
+            Size.Width = 320.000000000000000000
             Size.Height = 33.000000000000000000
             Size.PlatformDefault = False
             Stroke.Kind = None
@@ -486,9 +486,9 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
               Items.Strings = (
                 '1 - Pessoa f'#237'sica'
                 '2 - Pessoa Jur'#237'dica')
-              ItemIndex = 0
+              ItemIndex = 1
               Margins.Right = 5.000000000000000000
-              Size.Width = 311.000000000000000000
+              Size.Width = 315.000000000000000000
               Size.Height = 32.000000000000000000
               Size.PlatformDefault = False
               TabOrder = 0
@@ -497,7 +497,7 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
         end
         object LayNome: TLayout
           Align = Top
-          Size.Width = 336.000000000000000000
+          Size.Width = 340.000000000000000000
           Size.Height = 57.000000000000000000
           Size.PlatformDefault = False
           TabOrder = 8
@@ -508,7 +508,7 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
             Margins.Top = 12.000000000000000000
             Margins.Right = 10.000000000000000000
             Margins.Bottom = 12.000000000000000000
-            Size.Width = 316.000000000000000000
+            Size.Width = 320.000000000000000000
             Size.Height = 33.000000000000000000
             Size.PlatformDefault = False
             Stroke.Kind = None
@@ -527,7 +527,7 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
               TabOrder = 0
               KeyboardType = Alphabet
               ReturnKeyType = Next
-              Size.Width = 316.000000000000000000
+              Size.Width = 320.000000000000000000
               Size.Height = 32.000000000000000000
               Size.PlatformDefault = False
               TextPrompt = 'Nome'
@@ -538,7 +538,7 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
         object LaySobrenome: TLayout
           Align = Top
           Position.Y = 57.000000000000000000
-          Size.Width = 336.000000000000000000
+          Size.Width = 340.000000000000000000
           Size.Height = 57.000000000000000000
           Size.PlatformDefault = False
           TabOrder = 6
@@ -549,7 +549,7 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
             Margins.Top = 12.000000000000000000
             Margins.Right = 10.000000000000000000
             Margins.Bottom = 12.000000000000000000
-            Size.Width = 316.000000000000000000
+            Size.Width = 320.000000000000000000
             Size.Height = 33.000000000000000000
             Size.PlatformDefault = False
             Stroke.Kind = None
@@ -568,7 +568,7 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
               TabOrder = 0
               KeyboardType = Alphabet
               ReturnKeyType = Next
-              Size.Width = 316.000000000000000000
+              Size.Width = 320.000000000000000000
               Size.Height = 32.000000000000000000
               Size.PlatformDefault = False
               TextPrompt = 'Sobrenome'
@@ -579,7 +579,7 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
         object Layout2: TLayout
           Align = Top
           Position.Y = 399.000000000000000000
-          Size.Width = 336.000000000000000000
+          Size.Width = 340.000000000000000000
           Size.Height = 57.000000000000000000
           Size.PlatformDefault = False
           TabOrder = 3
@@ -590,7 +590,7 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
             Margins.Top = 12.000000000000000000
             Margins.Right = 10.000000000000000000
             Margins.Bottom = 12.000000000000000000
-            Size.Width = 316.000000000000000000
+            Size.Width = 320.000000000000000000
             Size.Height = 33.000000000000000000
             Size.PlatformDefault = False
             Stroke.Kind = None
@@ -609,7 +609,7 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
               TabOrder = 0
               KeyboardType = Alphabet
               ReturnKeyType = Next
-              Size.Width = 316.000000000000000000
+              Size.Width = 320.000000000000000000
               Size.Height = 32.000000000000000000
               Size.PlatformDefault = False
               TextPrompt = 'Bairro'
@@ -620,7 +620,7 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
         object Layout3: TLayout
           Align = Top
           Position.Y = 456.000000000000000000
-          Size.Width = 336.000000000000000000
+          Size.Width = 340.000000000000000000
           Size.Height = 57.000000000000000000
           Size.PlatformDefault = False
           TabOrder = 2
@@ -631,7 +631,7 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
             Margins.Top = 12.000000000000000000
             Margins.Right = 10.000000000000000000
             Margins.Bottom = 12.000000000000000000
-            Size.Width = 316.000000000000000000
+            Size.Width = 320.000000000000000000
             Size.Height = 33.000000000000000000
             Size.PlatformDefault = False
             Stroke.Kind = None
@@ -650,7 +650,7 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
               TabOrder = 0
               KeyboardType = Alphabet
               ReturnKeyType = Next
-              Size.Width = 316.000000000000000000
+              Size.Width = 320.000000000000000000
               Size.Height = 32.000000000000000000
               Size.PlatformDefault = False
               TextPrompt = 'Complemento'
@@ -661,8 +661,8 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
       end
       object LayBottom: TLayout
         Align = Bottom
-        Position.Y = 508.000000000000000000
-        Size.Width = 341.000000000000000000
+        Position.Y = 532.000000000000000000
+        Size.Width = 345.000000000000000000
         Size.Height = 50.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 3
@@ -674,7 +674,7 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
           Margins.Bottom = 8.000000000000000000
           Position.X = 5.000000000000000000
           Position.Y = 8.000000000000000000
-          Size.Width = 106.195510864257800000
+          Size.Width = 107.499855041503900000
           Size.Height = 34.000000000000000000
           Size.PlatformDefault = False
           Stroke.Kind = None
@@ -692,7 +692,7 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
             Align = Client
             StyledSettings = []
             Locked = True
-            Size.Width = 106.195510864257800000
+            Size.Width = 107.499855041503900000
             Size.Height = 34.000000000000000000
             Size.PlatformDefault = False
             TextSettings.Font.Family = 'Arial'
@@ -711,9 +711,9 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
           Margins.Top = 8.000000000000000000
           Margins.Right = 5.000000000000000000
           Margins.Bottom = 8.000000000000000000
-          Position.X = 240.400161743164100000
+          Position.X = 243.161453247070300000
           Position.Y = 8.000000000000000000
-          Size.Width = 94.501083374023440000
+          Size.Width = 95.726882934570310000
           Size.Height = 34.000000000000000000
           Size.PlatformDefault = False
           Stroke.Kind = None
@@ -731,7 +731,7 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
             Align = Client
             StyledSettings = []
             Locked = True
-            Size.Width = 94.501083374023440000
+            Size.Width = 95.726882934570310000
             Size.Height = 34.000000000000000000
             Size.PlatformDefault = False
             TextSettings.Font.Family = 'Arial'
@@ -749,9 +749,9 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
           Margins.Top = 8.000000000000000000
           Margins.Right = 5.000000000000000000
           Margins.Bottom = 8.000000000000000000
-          Position.X = 123.200080871582000000
+          Position.X = 124.645240783691400000
           Position.Y = 8.000000000000000000
-          Size.Width = 107.200126647949200000
+          Size.Width = 108.516258239746100000
           Size.Height = 34.000000000000000000
           Size.PlatformDefault = False
           Stroke.Kind = None
@@ -769,7 +769,7 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
             Align = Client
             StyledSettings = []
             Locked = True
-            Size.Width = 107.200126647949200000
+            Size.Width = 108.516258239746100000
             Size.Height = 34.000000000000000000
             Size.PlatformDefault = False
             TextSettings.Font.Family = 'Arial'
@@ -784,14 +784,14 @@ object FrmCad_Pessoas: TFrmCad_Pessoas
       end
       object LayTop: TLayout
         Align = Top
-        Size.Width = 341.000000000000000000
+        Size.Width = 345.000000000000000000
         Size.Height = 49.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 0
         object LabTitulo: TLabel
           Align = Contents
           StyledSettings = [Family]
-          Size.Width = 341.000000000000000000
+          Size.Width = 345.000000000000000000
           Size.Height = 49.000000000000000000
           Size.PlatformDefault = False
           TextSettings.Font.Size = 16.000000000000000000

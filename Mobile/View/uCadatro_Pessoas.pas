@@ -189,6 +189,8 @@ begin
   begin
      DmPrincipal.NovaPessoa;
 
+     EmEdicao := False;
+
      T.Synchronize(TThread.Current, procedure
      begin
        LimparCampos;
@@ -288,7 +290,7 @@ begin
 
         while NOT Eof do
         begin
-          DmPrincipal.AddPessoas(DmPrincipal.QryPessoasnmprimeiro.AsString,
+          DmPrincipal.AddPessoas(DmPrincipal.QryPessoasnmprimeiro.AsString +' '+DmPrincipal.QryPessoasnmsegundo.AsString,
                                  DmPrincipal.QryPessoasidpessoa.AsInteger);
 
           Next;
@@ -436,6 +438,8 @@ begin
     TabAbas.GotoVisibleTab(0);
 
     Mensagem.Show(TIconDialog.Success, 'Ok','Dados salvos!');
+
+    EmEdicao := False;
 
     RectPesquisarClick(Sender);
   end;

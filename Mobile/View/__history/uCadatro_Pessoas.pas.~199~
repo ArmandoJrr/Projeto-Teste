@@ -253,7 +253,6 @@ begin
 
    LimparCampos;
 
-   RectPesquisarClick(Sender);
    TabAbas.GotoVisibleTab(0);
 
    Mensagem.Show(TIconDialog.Success, 'OK','Registro excluído!');
@@ -265,6 +264,8 @@ end;
 procedure TFrmCad_Pessoas.RectExcluirClick(Sender: TObject);
 begin
   ExcluirPessoa(DmPrincipal.QryDetalheIdPessoa.AsInteger);
+
+  RectPesquisarClick(Sender);
 end;
 
 procedure TFrmCad_Pessoas.ThreadPessoasTerminate(Sender: TObject);

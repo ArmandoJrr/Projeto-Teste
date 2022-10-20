@@ -45,8 +45,8 @@ object DmPrincipal: TDmPrincipal
       'DriverID=PG')
     Connected = True
     LoginPrompt = False
-    Left = 56
-    Top = 16
+    Left = 72
+    Top = 24
   end
   object QryEndereco: TFDQuery
     Connection = Conn
@@ -121,8 +121,8 @@ object DmPrincipal: TDmPrincipal
   end
   object FDPhysPgDriverLink1: TFDPhysPgDriverLink
     VendorHome = 'D:\Projetos\TestePG\Mobile\Win32\Debug'
-    Left = 56
-    Top = 80
+    Left = 72
+    Top = 88
   end
   object QryDetalhe: TFDQuery
     Connection = Conn
