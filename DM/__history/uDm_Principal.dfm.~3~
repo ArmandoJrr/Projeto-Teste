@@ -1,0 +1,19 @@
+object DmPrincipal: TDmPrincipal
+  Height = 273
+  Width = 382
+  object Conn: TFDConnection
+    Params.Strings = (
+      'Database=bancopg'
+      'User_Name=postgres'
+      'Password=102030'
+      'Port=2020'
+      'DriverID=PG')
+    Left = 48
+    Top = 32
+  end
+  object FDPhysPgDriverLink: TFDPhysPgDriverLink
+    VendorHome = 'D:\Projeto\Win32\Debug'
+    Left = 136
+    Top = 104
+  end
+end

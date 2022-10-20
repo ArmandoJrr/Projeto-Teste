@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2022/10/19 16:12:56.000.415,=D:\Projetos\TestePG\FormUnit1.pas</Transaction>
+    <Transaction>2022/10/19 16:12:57.000.122,=D:\Projetos\TestePG\ServerMethodsUnit1.pas</Transaction>
+    <Transaction>2022/10/19 16:12:57.000.531,=D:\Projetos\TestePG\ServerContainerUnit1.pas</Transaction>
+    <Transaction>2022/10/19 16:12:57.000.955,=D:\Projetos\TestePG\WebModuleUnit1.pas</Transaction>
+    <Transaction>2022/10/19 16:12:58.000.206,=D:\Projetos\TestePG\js\base64.js</Transaction>
+    <Transaction>2022/10/19 16:12:58.000.411,=D:\Projetos\TestePG\js\callbackframework.js</Transaction>
+    <Transaction>2022/10/19 16:12:58.000.646,=D:\Projetos\TestePG\js\json2-min.js</Transaction>
+    <Transaction>2022/10/19 16:12:58.000.819,=D:\Projetos\TestePG\js\callbackframework-min.js</Transaction>
+    <Transaction>2022/10/19 16:12:58.000.332,=D:\Projetos\TestePG\js\json2.js</Transaction>
+    <Transaction>2022/10/19 16:12:58.000.458,=D:\Projetos\TestePG\js\serverfunctions.js</Transaction>
+    <Transaction>2022/10/19 16:12:58.000.725,=D:\Projetos\TestePG\js\serverfunctionexecutor-min.js</Transaction>
+    <Transaction>2022/10/19 16:12:58.000.269,=D:\Projetos\TestePG\js\serverfunctionexecutor.js</Transaction>
+    <Transaction>2022/10/19 16:12:58.000.583,=D:\Projetos\TestePG\js\base64-min.js</Transaction>
+    <Transaction>2022/10/19 16:13:25.000.507,D:\Projetos\TestePG\ServerMethodsUnit1.dfm=D:\Projetos\TestePG\uServerMethods.dfm</Transaction>
+    <Transaction>2022/10/19 16:13:25.000.507,D:\Projetos\TestePG\ServerMethodsUnit1.pas=D:\Projetos\TestePG\uServerMethods.pas</Transaction>
+    <Transaction>2022/10/19 16:13:32.000.931,D:\Projetos\TestePG\WebModuleUnit1.dfm=D:\Projetos\TestePG\uWebModule.dfm</Transaction>
+    <Transaction>2022/10/19 16:13:32.000.931,D:\Projetos\TestePG\WebModuleUnit1.pas=D:\Projetos\TestePG\uWebModule.pas</Transaction>
+    <Transaction>2022/10/19 16:13:39.000.790,D:\Projetos\TestePG\ServerContainerUnit1.pas=D:\Projetos\TestePG\uServerContainer.pas</Transaction>
+    <Transaction>2022/10/19 16:13:39.000.790,D:\Projetos\TestePG\ServerContainerUnit1.dfm=D:\Projetos\TestePG\uServerContainer.dfm</Transaction>
+    <Transaction>2022/10/19 16:13:48.000.853,D:\Projetos\TestePG\FormUnit1.dfm=D:\Projetos\TestePG\uPrincipal.dfm</Transaction>
+    <Transaction>2022/10/19 16:13:48.000.853,D:\Projetos\TestePG\FormUnit1.pas=D:\Projetos\TestePG\uPrincipal.pas</Transaction>
+    <Transaction>2022/10/19 16:14:26.000.052,=D:\Projetos\TestePG\Unit1.pas</Transaction>
+    <Transaction>2022/10/19 16:14:34.000.783,D:\Projetos\TestePG\Unit1.dfm=D:\Projetos\TestePG\uDmPrincipal.dfm</Transaction>
+    <Transaction>2022/10/19 16:14:34.000.783,D:\Projetos\TestePG\Unit1.pas=D:\Projetos\TestePG\uDmPrincipal.pas</Transaction>
+  </Transactions>
+</BorlandProject>

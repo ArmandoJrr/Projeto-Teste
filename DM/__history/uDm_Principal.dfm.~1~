@@ -1,0 +1,4 @@
+object DmPrincipal: TDmPrincipal
+  Height = 295
+  Width = 392
+end

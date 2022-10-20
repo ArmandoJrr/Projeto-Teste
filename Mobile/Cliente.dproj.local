@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2022/04/13 09:00:44.000.789,=C:\Users\arman\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2022/04/13 15:55:02.000.289,=C:\Users\arman\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2022/06/07 16:01:00.000.382,=C:\Users\arman\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2022/10/18 22:22:40.000.348,=C:\Users\arman\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2022/10/19 07:55:25.000.859,=C:\Users\arman\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2022/10/19 07:56:04.000.869,D:\Projeto\Unit2.fmx=C:\Users\arman\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit2.fmx</Transaction>
+    <Transaction>2022/10/19 07:56:04.000.869,D:\Projeto\Unit2.pas=C:\Users\arman\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2022/10/19 07:56:21.000.469,D:\Projeto\Mobile\Cliente.dproj=C:\Users\arman\OneDrive\Documentos\Embarcadero\Studio\Projects\Project2.dproj</Transaction>
+    <Transaction>2022/10/19 07:56:48.000.477,=D:\Projeto\Mobile\View\uCadatro_Pessoas.pas</Transaction>
+    <Transaction>2022/10/19 09:43:14.000.480,=D:\Projeto\Mobile\Unit1.pas</Transaction>
+    <Transaction>2022/10/19 09:43:33.000.475,D:\Projeto\Mobile\DM\uDmPrincipal.dfm=D:\Projeto\Mobile\Unit1.dfm</Transaction>
+    <Transaction>2022/10/19 09:43:33.000.475,D:\Projeto\Mobile\DM\uDmPrincipal.pas=D:\Projeto\Mobile\Unit1.pas</Transaction>
+    <Transaction>2022/10/19 09:43:43.000.988,D:\Projeto\Unit2.pas=</Transaction>
+    <Transaction>2022/10/20 14:26:49.000.207,=D:\Projetos\TestePG\uFormat.pas</Transaction>
+    <Transaction>2022/10/20 15:34:52.000.667,=D:\Projetos\TestePG\uFancyDialog.pas</Transaction>
+  </Transactions>
+	<ActiveMobileDevice>
+		<NoProfile Android=""/>
+	</ActiveMobileDevice>
+</BorlandProject>

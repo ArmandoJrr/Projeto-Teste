@@ -1,0 +1,17 @@
+program Cliente;
+
+uses
+  System.StartUpCopy,
+  FMX.Forms,
+  uCadatro_Pessoas in 'View\uCadatro_Pessoas.pas' {FrmCad_Pessoas},
+  uDmPrincipal in 'DM\uDmPrincipal.pas' {DataModule1: TDataModule};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.CreateForm(TFrmCad_Pessoas, FrmCad_Pessoas);
+  Application.CreateForm(TFrmCad_Pessoas, FrmCad_Pessoas);
+  Application.CreateForm(TDataModule1, DataModule1);
+  Application.Run;
+end.

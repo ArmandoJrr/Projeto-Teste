@@ -1,0 +1,141 @@
+object FrmCad_Pessoas: TFrmCad_Pessoas
+  Left = 0
+  Top = 0
+  Caption = 'Cadastro de Pessoas'
+  ClientHeight = 568
+  ClientWidth = 350
+  Fill.Kind = Solid
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  DesignerMasterStyle = 3
+  object LayTop: TLayout
+    Align = Top
+    Size.Width = 350.000000000000000000
+    Size.Height = 57.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object LabTitulo: TLabel
+      Align = Contents
+      StyledSettings = [Family]
+      Size.Width = 350.000000000000000000
+      Size.Height = 57.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 16.000000000000000000
+      TextSettings.Font.StyleExt = {00060000000000000004000000}
+      TextSettings.FontColor = xFF616161
+      TextSettings.HorzAlign = Center
+      Text = 'Cadastro de Pessoas'
+      TabOrder = 0
+    end
+    object ImgSalvar: TImage
+      MultiResBitmap.Height = 64
+      MultiResBitmap.Width = 64
+      MultiResBitmap = <
+        item
+          Width = 64
+          Height = 64
+          PNG = {
+            89504E470D0A1A0A0000000D4948445200000040000000400806000000AA6971
+            DE000000017352474200AECE1CE90000000467414D410000B18F0BFC61050000
+            021A49444154785EEDD7214F23411806E0999610CC7121284071022417C21F40
+            2010183C290202E60C5848D380233973060282068F21048120F5FC014C311014
+            0209B97498B77C84946CBBB3BBD3EE37F03D49339DD9269DF715BB3B4A082184
+            10420821BE234DE39750AD9E0EBFA8FE0DA5CCB8D2E6726569E1586B6DE872A4
+            2F53C0FEC9C548A1F1FFCA069EA425DB83D95D2D2D6CD32C5281C6A045867FF3
+            87C6B6822FA04378274117E010FE1F8D6D055B405C7863CCD15DFDBA4CD3B682
+            BC09BA84BFAF5FAF552A95062DB5155C013EC3435005F80E0FC114D08DF01044
+            01DD0A0FEC0BE86678605D40B7C303DB027A111E5816D0ABF0C0AE805E8687D8
+            02EC1FEAA393B36565F49CFDF96DBF7AF95B2A2D3ED265AF7A1D1E620B38AC9E
+            ED28ADB7688A4DDC340A7DB3EB4BF30FB4E4451EE1C1E530D472A6C606B1516C
+            989632CB2B3CA43A0DFA2C21CFF0E05240E499DA4709798787D80270A6C64668
+            DA224B091CC283D363B05C2E17C67ECD1CD8CDAED0520BBBD94437462EE1C1F9
+            3DC057099CC243A217A1AC25700B0F890A80B425700C0F890B80A425700D0FA9
+            0A00D712F09D6B78485D00C49560D33D3547AD7F36C74FF20E0F451A53A9D56A
+            667A6AE2FCC7D0E8982D619A963F683DD0FC44E0101E321500B12544E0121E32
+            1700494AE0141EBC14002E25700B0FDE0A804E25700C0F5E0B80F7120687468B
+            46A9DF76E9D93E6AF66CF84D6EE1851042082184104208F11D29F50A269E2C95
+            51BEE5D90000000049454E44AE426082}
+          FileName = 'D:\Projetos\Fontes AULA Financeiro\Aula8\Images\save.png'
+        end>
+      Align = Right
+      Position.X = 300.000000000000000000
+      Size.Width = 50.000000000000000000
+      Size.Height = 57.000000000000000000
+      Size.PlatformDefault = False
+    end
+  end
+  object Scroll: TVertScrollBox
+    Align = Client
+    Size.Width = 350.000000000000000000
+    Size.Height = 511.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    Viewport.Width = 350.000000000000000000
+    Viewport.Height = 511.000000000000000000
+    object LayNome: TLayout
+      Align = Top
+      Size.Width = 350.000000000000000000
+      Size.Height = 57.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      object Edtnome: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        Align = Client
+        StyleLookup = 'transparentedit'
+        TabOrder = 0
+        Margins.Left = 10.000000000000000000
+        Margins.Top = 10.000000000000000000
+        Margins.Right = 10.000000000000000000
+        Margins.Bottom = 10.000000000000000000
+        Size.Width = 330.000000000000000000
+        Size.Height = 32.000000000000000000
+        Size.PlatformDefault = False
+        TextPrompt = 'Nome'
+      end
+    end
+    object Layout2: TLayout
+      Align = Top
+      Position.Y = 57.000000000000000000
+      Size.Width = 350.000000000000000000
+      Size.Height = 57.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      object Edit2: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        Align = Client
+        StyleLookup = 'transparentedit'
+        TabOrder = 0
+        Margins.Left = 10.000000000000000000
+        Margins.Top = 10.000000000000000000
+        Margins.Right = 10.000000000000000000
+        Margins.Bottom = 10.000000000000000000
+        Size.Width = 330.000000000000000000
+        Size.Height = 32.000000000000000000
+        Size.PlatformDefault = False
+        TextPrompt = 'Sobrenome'
+      end
+    end
+    object Layout1: TLayout
+      Align = Top
+      Position.Y = 114.000000000000000000
+      Size.Width = 350.000000000000000000
+      Size.Height = 57.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      object ComboBox1: TComboBox
+        Align = Client
+        Items.Strings = (
+          'Pessoa f'#237'sica'
+          'Pessoa Jur'#237'dica')
+        ItemIndex = 0
+        Margins.Left = 10.000000000000000000
+        Margins.Right = 15.000000000000000000
+        Size.Width = 325.000000000000000000
+        Size.Height = 32.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+      end
+    end
+  end
+end

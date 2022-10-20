@@ -1,0 +1,36 @@
+unit uCadatro_Pessoas;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
+  FMX.Objects, FMX.Controls.Presentation, FMX.StdCtrls, FMX.Layouts,
+  FMX.ListBox, FMX.Edit;
+
+type
+  TFrmCad_Pessoas = class(TForm)
+    LayTop: TLayout;
+    LabTitulo: TLabel;
+    ImgSalvar: TImage;
+    Scroll: TVertScrollBox;
+    LayNome: TLayout;
+    Edtnome: TEdit;
+    Layout1: TLayout;
+    Layout2: TLayout;
+    Edit2: TEdit;
+    ComboBox1: TComboBox;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FrmCad_Pessoas: TFrmCad_Pessoas;
+
+implementation
+
+{$R *.fmx}
+
+end.

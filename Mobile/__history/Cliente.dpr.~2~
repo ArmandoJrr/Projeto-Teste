@@ -1,0 +1,17 @@
+program Cliente;
+
+uses
+  System.StartUpCopy,
+  FMX.Forms,
+  Unit2 in '..\Unit2.pas' {Form2},
+  uCadatro_Pessoas in 'View\uCadatro_Pessoas.pas' {FrmCad_Pessoas};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.CreateForm(TForm2, Form2);
+  Application.CreateForm(TFrmCad_Pessoas, FrmCad_Pessoas);
+  Application.CreateForm(TFrmCad_Pessoas, FrmCad_Pessoas);
+  Application.Run;
+end.
