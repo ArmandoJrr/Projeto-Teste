@@ -1,0 +1,186 @@
+unit uDmPrincipal;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, Data.DB,
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client, FireDAC.UI.Intf,
+  FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Phys,
+  FireDAC.FMXUI.Wait, REST.Types,
+  REST.Response.Adapter, REST.Client, Data.Bind.Components,
+  Data.Bind.ObjectScope,FMX.ListView.Types,
+  Data.DBXDataSnap, Data.DBXCommon, IPPeerClient, Data.SqlExpr,
+  FireDAC.Phys.PG, FireDAC.Phys.PGDef, System.JSON.Readers, REST.Utils,
+  System.JSON.Types, iniFiles, System.IOUtils;
+
+type
+  TDmPrincipal = class(TDataModule)
+    Conn: TFDConnection;
+    QryEndereco: TFDQuery;
+    QryEndereco_Integracao: TFDQuery;
+    QryEnderecoidendereco: TLargeintField;
+    QryEnderecoidpessoa: TLargeintField;
+    QryEnderecodscep: TWideStringField;
+    QryEndereco_Integracaoidendereco: TLargeintField;
+    QryEndereco_Integracaodsuf: TWideStringField;
+    QryEndereco_Integracaonmcidade: TWideStringField;
+    QryEndereco_Integracaonmbairro: TWideStringField;
+    QryEndereco_Integracaonmlogradouro: TWideStringField;
+    QryEndereco_Integracaodscomplemento: TWideStringField;
+    QrySequencia: TFDQuery;
+    QryDetalhe: TFDQuery;
+    QryDetalheidpessoa: TLargeintField;
+    QryDetalheflnatureza: TSmallintField;
+    QryDetalhedsdocumento: TWideStringField;
+    QryDetalhenmprimeiro: TWideStringField;
+    QryDetalhenmsegundo: TWideStringField;
+    QryDetalhedtregistro: TDateField;
+    QryDetalheidendereco: TLargeintField;
+    QryDetalheidpessoa_1: TLargeintField;
+    QryDetalhedscep: TWideStringField;
+    QryDetalheidendereco_1: TLargeintField;
+    QryDetalhedsuf: TWideStringField;
+    QryDetalhenmcidade: TWideStringField;
+    QryDetalhenmbairro: TWideStringField;
+    QryDetalhenmlogradouro: TWideStringField;
+    QryDetalhedscomplemento: TWideStringField;
+    QryDetalheidendereco_2: TLargeintField;
+    QryDetalheidpessoa_2: TLargeintField;
+    QryDetalhedscep_1: TWideStringField;
+    QryDetalheidendereco_3: TLargeintField;
+    QryDetalhedsuf_1: TWideStringField;
+    QryDetalhenmcidade_1: TWideStringField;
+    QryDetalhenmbairro_1: TWideStringField;
+    QryDetalhenmlogradouro_1: TWideStringField;
+    QryDetalhedscomplemento_1: TWideStringField;
+    QryExcluirPessoa: TFDQuery;
+    FDManager1: TFDManager;
+    RESTRequestPessoas: TRESTRequest;
+    RESTResponsePessoas: TRESTResponse;
+    RESTClientPessoas: TRESTClient;
+    FDPhysPgDriverLink1: TFDPhysPgDriverLink;
+    RESTResponseDataSetAdapterPessoas: TRESTResponseDataSetAdapter;
+    MemTablePessoas: TFDMemTable;
+    QrySequenciaidpessoa: TLargeintField;
+    procedure DataModuleCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    function CarregarConfig(Section, Name, Value: string): string;
+    procedure SalvarConfig(Section, Name, Value: string);
+    procedure AddPessoas(Nome: String; Codigo: Integer);
+    procedure CarregarPessoas(Pesquisa: String);
+    function SomenteNumero(str: string): string;
+    { Public declarations }
+  end;
+
+var
+  DmPrincipal: TDmPrincipal;
+
+implementation
+
+{%CLASSGROUP 'FMX.Controls.TControl'}
+
+uses uCadatro_Pessoas;
+
+{$R *.dfm}
+
+procedure TDmPrincipal.DataModuleCreate(Sender: TObject);
+var
+ini : TIniFile;
+nomeBanco  : String;
+UserBanco  : String;
+SenhaBanco : String;
+begin
+  try
+    ini := TIniFile.Create(System.SysUtils.GetCurrentDir + 'Config.ini');
+
+    ini.WriteString('Banco', 'NomeBD','bancopg');
+    ini.WriteString('Banco', 'User','postgres');
+    ini.WriteString('Banco', 'Senha','102030');
+
+    nomeBanco  := ini.WriteString('Banco', 'NomeBD','');
+    UserBanco  := ini.WriteString('Banco', 'User','');
+    SenhaBanco := ini.WriteString('Banco', 'Senha','');
+
+    Conn.Params.Database := nomeBanco;
+    Conn.Params.UserName := UserBanco;
+    Conn.Params.Password := SenhaBanco;
+
+    Conn.Connected := True;
+  except
+  end;
+end;
+
+function TdmPrincipal.CarregarConfig(Section, Name, Value: string): string;
+var
+  ini: TIniFile;
+begin
+  ini := TIniFile.Create(System.SysUtils.GetCurrentDir + 'Config.ini');
+  try
+    Result := ini.ReadString(Section, Name, Value);
+  finally
+    ini.Free;
+  end;
+end;
+
+procedure TDmPrincipal.SalvarConfig(Section, Name, Value: string);
+var
+  ini: TIniFile;
+begin
+  ini := TIniFile.Create(System.SysUtils.GetCurrentDir + 'Config.ini');
+  try
+    ini.WriteString(Section, Name, Value);
+  finally
+    ini.Free;
+  end;
+end;
+
+function TDmPrincipal.SomenteNumero(str : string) : string;
+var
+    x : integer;
+begin
+    Result := '';
+    for x := 0 to Length(str) - 1 do
+        if (str.Chars[x] In ['0'..'9']) then
+            Result := Result + str.Chars[x];
+end;
+
+
+procedure TDmPrincipal.AddPessoas(Nome: String; Codigo: Integer);
+begin
+  with FrmCad_Pessoas.ListViewPessoas.Items.Add do
+    begin
+      TagString  := Codigo.ToString;
+
+      TListItemText(Objects.FindDrawable('txtNome')).Text         := Nome;
+      TListItemText(Objects.FindDrawable('txtCodigo')).Text       := Codigo.ToString;
+    end;
+end;
+
+procedure TDmPrincipal.CarregarPessoas(Pesquisa : String);
+var
+  SR: TStringReader;
+  JR: TJsonTextReader;
+begin
+  RESTClientPessoas.Accept := 'application/json, text/plain; q=0.9, text/html;q=0.8,';
+  RestClientPessoas.AcceptCharset := 'UTF-8, *;q=0.8';
+  RestClientPessoas.BaseURL := Format('http://%s:%s/datasnap/rest/TServerMethods', ['localhost', '211']);
+  RestClientPessoas.ContentType := CONTENTTYPE_APPLICATION_JSON;
+  RestRequestPessoas.Resource := 'Pessoas/{nome}';
+  RestClientPessoas.HandleRedirects := True;
+  RestClientPessoas.RaiseExceptionOn500 := False;
+  RestRequestPessoas.Client := RestClientPessoas;
+  RestRequestPessoas.Method := TRESTRequestMethod.rmGET;
+
+  if pesquisa = ''  then
+    RestRequestPessoas.Params.AddItem('nome',EmptyStr, TRESTRequestParameterKind.pkURLSEGMENT)
+  else
+    RestRequestPessoas.Params.AddItem('nome', URIEncode(pesquisa), TRESTRequestParameterKind.pkURLSEGMENT);
+
+  RestRequestPessoas.Execute;
+  RESTResponsePessoas.ContentType := CONTENTTYPE_APPLICATION_JSON;
+end;
+end.

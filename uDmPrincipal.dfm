@@ -1,5 +1,6 @@
-object DataModule1: TDataModule1
-  Height = 298
+object DmPrincipal: TDmPrincipal
+  OnCreate = DataModuleCreate
+  Height = 106
   Width = 386
   object Conn: TFDConnection
     Params.Strings = (
@@ -10,12 +11,12 @@ object DataModule1: TDataModule1
       'Port=2020'
       'DriverID=PG')
     LoginPrompt = False
-    Left = 144
-    Top = 72
+    Left = 88
+    Top = 24
   end
   object FDPhysPgDriverLink1: TFDPhysPgDriverLink
     VendorHome = 'D:\Projetos\TestePG\Win32\Debug'
-    Left = 144
-    Top = 160
+    Left = 272
+    Top = 24
   end
 end

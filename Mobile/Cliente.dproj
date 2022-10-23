@@ -198,6 +198,11 @@
         </DCCReference>
         <DCCReference Include="..\uFormat.pas"/>
         <DCCReference Include="..\uFancyDialog.pas"/>
+        <DCCReference Include="DM\uDmPessoa.pas">
+            <Form>DmPessoa</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

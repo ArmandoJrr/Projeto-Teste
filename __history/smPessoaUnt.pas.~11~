@@ -1,0 +1,205 @@
+unit smPessoaUnt;
+
+interface
+
+uses System.SysUtils, System.Classes, System.Json,
+  DataSnap.DSProviderDataModuleAdapter,
+  DataSnap.DSServer, DataSnap.DSAuth, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
+  FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Phys.FB,
+  FireDAC.Phys.FBDef, FireDAC.VCLUI.Wait, Data.DB, FireDAC.Comp.Client,
+  FireDAC.Comp.UI, FireDAC.Phys.IBBase, Web.HttpApp, FireDAC.Stan.Param,
+  FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt, FireDAC.Comp.DataSet,
+  REST.Client, FireDAC.Phys.PG, FireDAC.Phys.PGDef;
+
+type
+  TPessoa = class(TDSServerModule)
+    FDGUIxWaitCursor1: TFDGUIxWaitCursor;
+    QryPessoas: TFDQuery;
+    QryAtualizar: TFDUpdateSQL;
+    QryPessoasCASO: TIntegerField;
+    QryPessoasNOME: TStringField;
+    QryPessoasALTURA: TBCDField;
+    QryPessoasPESOATUAL: TBCDField;
+    QryPessoasPESOINICIAL: TBCDField;
+    QryPessoasPESOIDEAL: TBCDField;
+    QryPessoasIMC: TBCDField;
+    fdqExames: TFDQuery;
+    fdqExamesCASO: TIntegerField;
+    fdqExamesDATA: TDateField;
+    fdqExamesGLICEMIA: TBCDField;
+    fdqExamesCOLESTEROLTOTAL: TBCDField;
+    fdqExamesHDL: TBCDField;
+    fdqExamesLDL: TBCDField;
+    fdqExamesTRIGLICERIDES: TBCDField;
+    Conn: TFDConnection;
+    FDPhysPgDriverLink1: TFDPhysPgDriverLink;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    function Pessoas(nome: String): TJSONArray;                // Get
+
+    function NewPaciente(JsonPessoa: TJSONObject): boolean;  // Put
+    function ExcluirPessoa(idpessoa: integer): boolean;      // Delete
+    function ListarPessoas(idpessoa: integer): TJSONArray;
+  end;
+
+implementation
+
+{$R *.dfm}
+
+uses System.StrUtils;
+
+function TPessoa.NewPaciente(JsonPessoa: TJSONObject): boolean;
+begin
+  Result := False;
+  if not QryAtualizar.Commands[arInsert].Prepared then
+    QryAtualizar.Commands[arInsert].Prepare;
+
+  QryAtualizar.Commands[arInsert].ParamByName('NEW_CASO').AsInteger := JsonPessoa.GetValue('CASO').Value.ToInteger;
+  QryAtualizar.Commands[arInsert].ParamByName('NEW_NOME').AsString  := JsonPessoa.GetValue('NOME').Value;
+
+  Result := QryAtualizar.Commands[arInsert].OpenOrExecute();
+end;
+
+function TPessoa.ExcluirPessoa(idpessoa: integer): boolean;
+begin
+  Result := False;
+
+  if not QryAtualizar.Commands[arDelete].Prepared then
+    QryAtualizar.Commands[arDelete].Prepare;
+
+  QryAtualizar.Commands[arDelete].ParamByName('OLD_CASO').AsInteger := idpessoa;
+
+  Result := QryAtualizar.Commands[arDelete].OpenOrExecute();
+end;
+
+function TPessoa.ListarPessoas(idpessoa: integer): TJSONArray;
+var
+  o : TJSONObject;
+  I: integer;
+begin
+  fdqExames.Close;
+
+  if idpessoa <= 0  then
+    fdqExames.SQL.Text := 'select caso,data,glicemia,colesteroltotal,hdl,ldl, ' +
+      'triglicerides from exames order by data'
+  else
+    begin
+      fdqExames.SQL.Text := 'select caso,data,glicemia, colesteroltotal, hdl, ' +
+        'ldl, triglicerides from exames where caso = :parCaso order by data';
+      fdqExames.Params.Add('parCaso', ftInteger, ptInput);
+      fdqExames.Params[0].AsInteger := idpessoa;
+    end;
+
+    fdqExames.Open();
+
+    if fdqExames.Active then
+      begin
+        if fdqExames.RecordCount > 0 then
+        begin
+          Result := TJSONArray.Create;
+          try
+            fdqExames.First;
+            while not(fdqExames.Eof) do
+            begin
+              o := TJSONObject.Create;
+              for I := 0 to fdqExames.FieldCount - 1 do
+                begin
+                  if (fdqExames.Fields[I].IsNull) then
+                    //Tratando valores nulos para não "quebrar" a aplicação
+                    o.AddPair(fdqExames.Fields[I].DisplayName, 'nulo')
+                  else
+                    o.AddPair(fdqExames.Fields[I].DisplayName, fdqExames.Fields[I].Value);
+                end;
+
+              Result.AddElement(o);
+
+              fdqExames.Next;
+            end;
+          finally
+
+          end;
+        end;
+      end;
+end;
+
+function TPessoa.Pessoas(nome: String): TJSONArray;
+var
+  o: TJSONObject;
+  I: integer;
+
+begin
+  fdqDados.Close;
+
+  if id <= 0 then
+    fdqDados.SQL.Text := 'select caso, nome, altura, pesoatual, pesoinicial, ' +
+                        'pesoideal, imc from dados order by caso '
+  else
+    begin
+      fdqDados.SQL.Text := 'select caso, nome, altura, pesoatual, pesoinicial, ' +
+       'pesoideal, imc from dados where caso = :parCaso ';
+      fdqDados.Params.Add('parCaso', ftInteger, ptInput);
+      fdqDados.Params[0].AsInteger := id;
+    end;
+
+  fdqDados.Open();
+
+  if fdqDados.Active then
+    begin
+      if fdqDados.RecordCount > 0 then
+        begin
+          Result := TJSONArray.Create;
+          try
+            fdqDados.First;
+            while not(fdqDados.Eof) do
+            begin
+              o := TJSONObject.Create;
+              for I := 0 to fdqDados.FieldCount - 1 do
+              begin
+                if fdqDados.Fields[I].IsNull then
+                  //Tratando valores nulos para não "quebrar" a aplicação
+                  o.AddPair(fdqDados.Fields[I].DisplayName, 'nulo')
+                else
+                  o.AddPair(fdqDados.Fields[I].DisplayName, fdqDados.Fields[I].Value);
+
+              end;
+              Result.AddElement(o);
+              fdqDados.Next;
+            end;
+          finally
+
+          end;
+        end
+      else
+        begin
+          Result := TJSONArray.Create;
+
+          o := TJSONObject.Create;
+
+          o.AddPair('result', 'Não há dados para exibição');
+
+          Result.AddElement(o);
+        end;
+
+
+    end;
+
+end;
+
+function TPessoa.UpdatePessoa(JsonPessoa: TJSONObject): boolean;
+begin
+ Result := False;
+
+ if not(QryAtualizar.Commands[arUpdate].Prepared) then
+  QryAtualizar.Commands[arUpdate].Prepare;
+
+ QryAtualizar.Commands[arUpdate].ParamByName('OLD_CASO').AsInteger := JsonPessoa.GetValue('CASO').Value.ToInteger();
+ QryAtualizar.Commands[arUpdate].ParamByName('NEW_CASO').AsInteger := QryAtualizar.Commands[arUpdate].ParamByName('OLD_CASO').Value;
+ QryAtualizar.Commands[arUpdate].ParamByName('NEW_NOME').AsString := JsonPessoa.GetValue('NOME').Value;
+
+ Result := FDUpdateSQL1.Commands[arUpdate].OpenOrExecute();
+end;
+
+end.

@@ -1,0 +1,448 @@
+unit uCadatro_Pessoas;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
+  FMX.Objects, FMX.Controls.Presentation, FMX.StdCtrls, FMX.Layouts,
+  FMX.ListBox, FMX.Edit, FMX.Effects, FMX.TabControl, FMX.ListView.Types,
+  FMX.ListView.Appearances, FMX.ListView.Adapters.Base, FMX.ListView,
+  System.Rtti, System.Bindings.Outputs, Fmx.Bind.Editors, Data.Bind.EngExt,
+  Fmx.Bind.DBEngExt, Data.Bind.Components, Data.Bind.DBScope, REST.Types,
+  REST.Response.Adapter, REST.Client, Data.Bind.ObjectScope,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client,uFancyDialog, REST.Utils;
+
+type
+  TFrmCad_Pessoas = class(TForm)
+    TabAbas: TTabControl;
+    TabPesquisar: TTabItem;
+    TabCad: TTabItem;
+    LayBottom: TLayout;
+    RectCancelar: TRectangle;
+    ShadowEffect14: TShadowEffect;
+    Label16: TLabel;
+    RectSalvar: TRectangle;
+    ShadowEffect16: TShadowEffect;
+    Label18: TLabel;
+    RectExcluir: TRectangle;
+    ShadowEffect7: TShadowEffect;
+    lblExcluir: TLabel;
+    LayCEP: TLayout;
+    RectCEP: TRectangle;
+    ShadowEffect3: TShadowEffect;
+    EdtCEP: TEdit;
+    LayDocumento: TLayout;
+    RectDocumento: TRectangle;
+    ShadowEffect6: TShadowEffect;
+    EdtDocumento: TEdit;
+    LayEndereco: TLayout;
+    RectEnd: TRectangle;
+    ShadowEffect4: TShadowEffect;
+    EdtEnd: TEdit;
+    LayNatureza: TLayout;
+    RectNatureza: TRectangle;
+    ShadowEffect5: TShadowEffect;
+    CBNaturezaPessoas: TComboBox;
+    LayNome: TLayout;
+    RectNome: TRectangle;
+    ShadowEffect2: TShadowEffect;
+    EdtNome: TEdit;
+    LaySobrenome: TLayout;
+    RectSobrenome: TRectangle;
+    ShadowEffect1: TShadowEffect;
+    EdtSobrenome: TEdit;
+    LayTop: TLayout;
+    LabTitulo: TLabel;
+    LayTopo: TLayout;
+    Rect: TRectangle;
+    ShadowEffect8: TShadowEffect;
+    EditConsulta: TEdit;
+    RectPesquisar: TRectangle;
+    Label1: TLabel;
+    ListViewPessoas: TListView;
+    Layout1: TLayout;
+    Label2: TLabel;
+    ImgNovaPessoa: TImage;
+    LayCidade: TLayout;
+    RectCidade: TRectangle;
+    ShadowEffect9: TShadowEffect;
+    EdtCidade: TEdit;
+    VertScrollBox1: TVertScrollBox;
+    Rectangle1: TRectangle;
+    ShadowEffect10: TShadowEffect;
+    EdtUF: TEdit;
+    Layout2: TLayout;
+    Rectangle2: TRectangle;
+    ShadowEffect11: TShadowEffect;
+    EdtBairro: TEdit;
+    Layout3: TLayout;
+    Rectangle3: TRectangle;
+    ShadowEffect12: TShadowEffect;
+    EdtComplemento: TEdit;
+    RESTClient: TRESTClient;
+    RESTRequest: TRESTRequest;
+    RESTResponse: TRESTResponse;
+    RESTResponseDataSetAdapter: TRESTResponseDataSetAdapter;
+    MemTable: TFDMemTable;
+    ImgConfig: TImage;
+    TabConfig: TTabItem;
+    Layout4: TLayout;
+    Label3: TLabel;
+    Layout5: TLayout;
+    EditUser: TEdit;
+    Layout6: TLayout;
+    EditNomeBanco: TEdit;
+    Rectangle4: TRectangle;
+    Layout7: TLayout;
+    SalvarConfig: TRectangle;
+    ShadowEffect15: TShadowEffect;
+    Label5: TLabel;
+    Layout8: TLayout;
+    EditSenha: TEdit;
+    procedure RectCancelarClick(Sender: TObject);
+    procedure RectSalvarClick(Sender: TObject);
+    procedure ImgNovaPessoaClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure RectPesquisarClick(Sender: TObject);
+    procedure EdtDocumentoTyping(Sender: TObject);
+    procedure EdtCEPTyping(Sender: TObject);
+    procedure EdtCEPExit(Sender: TObject);
+    procedure ListViewPessoasItemClick(const Sender: TObject;
+      const AItem: TListViewItem);
+    procedure RectExcluirClick(Sender: TObject);
+    procedure ImgConfigClick(Sender: TObject);
+    procedure SalvarConfigClick(Sender: TObject);
+  private
+    procedure ConsultarCEP(cep: string);
+    procedure GravarPessoa;
+    procedure ThreadPessoasTerminate(Sender: TObject);
+    procedure GravarEndereco;
+    procedure GravarEnderecoIntegracao;
+    procedure SalvarIDPessoa;
+    { Private declarations }
+  public
+    IdPessoa  : Integer;
+    EmEdicao  : Boolean;
+    Mensagem: TFancyDialog;
+    procedure LimparCampos;
+    { Public declarations }
+  end;
+
+var
+  FrmCad_Pessoas: TFrmCad_Pessoas;
+
+implementation
+
+{$R *.fmx}
+
+uses uDmPrincipal, uFormat, uDmPessoa;
+
+procedure TFrmCad_Pessoas.EdtCEPExit(Sender: TObject);
+begin
+  if EdtCEP.Text <> '' then
+    ConsultarCep(EdtCEP.Text);
+end;
+
+procedure TFrmCad_Pessoas.EdtCEPTyping(Sender: TObject);
+begin
+   Formatar(edtCEP, TFormato.CEP);
+end;
+
+procedure TFrmCad_Pessoas.EdtDocumentoTyping(Sender: TObject);
+begin
+  Formatar(EdtDocumento, TFormato.CNPJorCPF);
+end;
+
+procedure TFrmCad_Pessoas.FormCreate(Sender: TObject);
+begin
+  Mensagem := TFancyDialog.Create(FrmCad_Pessoas);
+  TabAbas.GotoVisibleTab(0);
+end;
+
+procedure TFrmCad_Pessoas.ConsultarCEP(cep: string);
+begin
+
+   if SomenteNumero(edtCEP.Text).Length <> 8 then
+    begin
+        Mensagem.Show(TIconDialog.Error, 'Atenção!','CEP inválido');
+        Exit;
+    end;
+
+    try
+      RESTRequest.Resource := SomenteNumero(edtCEP.Text) + '/json';
+      RESTRequest.Execute;
+
+      if RESTRequest.Response.StatusCode = 200 then
+      begin
+          if RESTRequest.Response.Content.IndexOf('erro') > 0 then
+              Mensagem.Show(TIconDialog.Error, 'Atenção!','CEP não encontrado!')
+          else
+          begin
+              with MemTable do
+              begin
+                EdtCidade.Text      := FieldByName('localidade').AsString;
+                EdtUF.Text          := FieldByName('uf').AsString;
+                EdtEnd.Text         := FieldByName('logradouro').AsString;
+                EdtBairro.Text      := FieldByName('bairro').AsString;
+                EdtComplemento.Text := FieldByName('complemento').AsString;
+              end;
+          end;
+      end
+      else
+          Mensagem.Show(TIconDialog.Error, 'Atenção!','Erro ao consultar CEP!');
+    except
+        Mensagem.Show(TIconDialog.Error, 'Atenção!','Erro ao consultar CEP!');
+    end;
+end;
+
+procedure TFrmCad_Pessoas.ImgConfigClick(Sender: TObject);
+begin
+  DmPrincipal.CarregarConfig('Banco', 'NomeBD',EditNomeBanco.Text);
+  DmPrincipal.CarregarConfig('Banco', 'User',EditUser.Text);
+  DmPrincipal.CarregarConfig('Banco', 'Senha',EditSenha.Text);
+
+  TabAbas.GotoVisibleTab(2);
+end;
+
+procedure TFrmCad_Pessoas.ImgNovaPessoaClick(Sender: TObject);
+begin
+ EmEdicao := False;
+
+ LimparCampos;
+ TabAbas.GotoVisibleTab(1);
+end;
+
+procedure TFrmCad_Pessoas.LimparCampos;
+begin
+  EdtNome.Text        := EmptyStr;
+  EdtSobrenome.Text   := EmptyStr;
+  EdtCEP.Text         := EmptyStr;
+  EdtEnd.Text         := EmptyStr;
+  EdtDocumento.Text   := EmptyStr;
+  EdtCidade.Text      := EmptyStr;
+  EdtUF.Text          := EmptyStr;
+  EdtBairro.Text      := EmptyStr;
+  EdtComplemento.Text := EmptyStr;
+end;
+
+procedure TFrmCad_Pessoas.SalvarConfigClick(Sender: TObject);
+begin
+  DmPrincipal.SalvarConfig('Banco', 'NomeBD',EditNomeBanco.Text);
+  DmPrincipal.SalvarConfig('Banco', 'User',EditUser.Text);
+
+  TabAbas.GotoVisibleTab(0);
+
+  Mensagem.Show(TIconDialog.Success, 'OK', 'Dados salvos!');
+end;
+
+procedure TFrmCad_Pessoas.SalvarIDPessoa;
+begin
+  DmPrincipal.QrySequencia.Close;
+  DmPrincipal.QrySequencia.Open;
+
+  IdPessoa := DmPrincipal.QrySequenciaidpessoa.AsInteger;
+end;
+
+procedure TFrmCad_Pessoas.ListViewPessoasItemClick(const Sender: TObject;
+  const AItem: TListViewItem);
+begin
+   DmPrincipal.QryDetalhe.Close;
+   DmPrincipal.QryDetalhe.ParamByName('codigo').asInteger := AItem.TagString.ToInteger;
+   DmPrincipal.QryDetalhe.Open;
+
+   if  DmPrincipal.QryDetalhe.IsEmpty then
+   Exit;
+
+   EmEdicao := True;
+
+   IdPessoa := AItem.TagString.ToInteger;
+
+   EdtNome.Text        := DmPrincipal.QryDetalhenmprimeiro.AsString;
+   EdtSobrenome.Text   := DmPrincipal.QryDetalhenmsegundo.AsString;
+   EdtCEP.Text         := DmPrincipal.QryDetalhedscep.AsString;
+   EdtEnd.Text         := DmPrincipal.QryDetalhenmlogradouro.AsString;
+   EdtDocumento.Text   := DmPrincipal.QryDetalhedsdocumento.AsString;
+   EdtCidade.Text      := DmPrincipal.QryDetalhenmcidade.AsString;
+   EdtUF.Text          := DmPrincipal.QryDetalhedsuf.AsString;
+   EdtBairro.Text      := DmPrincipal.QryDetalhenmbairro.AsString;
+   EdtComplemento.Text := DmPrincipal.QryDetalhedscomplemento.AsString;
+
+   if DmPrincipal.QryDetalheflnatureza.AsInteger = 1 then
+   begin
+     CBNaturezaPessoas.ItemIndex := 0;
+   end
+   else
+     CBNaturezaPessoas.ItemIndex := 1;
+
+   TabAbas.GotoVisibleTab(1);
+end;
+
+procedure TFrmCad_Pessoas.RectCancelarClick(Sender: TObject);
+begin
+  LimparCampos;
+  TabAbas.GotoVisibleTab(0);
+end;
+
+procedure TFrmCad_Pessoas.RectExcluirClick(Sender: TObject);
+begin
+  DmPessoa.ExcluirPessoa(DmPrincipal.QryDetalheIdPessoa.AsInteger);
+
+  RectPesquisarClick(Sender);
+end;
+
+procedure TFrmCad_Pessoas.ThreadPessoasTerminate(Sender: TObject);
+begin
+    if Sender is TThread then
+    begin
+        if Assigned(TThread(Sender).FatalException) then
+        begin
+            showmessage(Exception(TThread(sender).FatalException).Message);
+            exit;
+        end;
+    end;
+
+    with DmPrincipal.MemTablePessoas do
+    begin
+        ListViewPessoas.items.Clear;
+        ListViewPessoas.BeginUpdate;
+
+        First;
+
+        while NOT Eof do
+        begin
+          DmPrincipal.AddPessoas(DmPrincipal.MemTablePessoas.fieldByName('nmprimeiro').AsString +' '+
+                                 DmPrincipal.MemTablePessoas.fieldByName('nmsegundo').AsString,
+                                 DmPrincipal.MemTablePessoas.fieldByName('idpessoa').AsInteger);
+
+          Next;
+        end;
+
+        ListViewPessoas.EndUpdate;
+    end;
+end;
+
+procedure TFrmCad_Pessoas.RectPesquisarClick(Sender: TObject);
+var
+    t : TThread;
+begin
+    t := TThread.CreateAnonymousThread(procedure
+    begin
+       DmPrincipal.CarregarPessoas(EditConsulta.Text);
+    end);
+
+    t.OnTerminate := ThreadPessoasTerminate;
+    t.Start;
+end;
+
+procedure TFrmCad_Pessoas.GravarEndereco;
+begin
+//   try
+//       if EmEdicao then
+//       begin
+//         DmPrincipal.QryEndereco.Close;
+//         DmPrincipal.QryEndereco.SQL.Clear;
+//         DmPrincipal.QryEndereco.SQL.Add('select * from endereco where idendereco = :id');
+//         DmPrincipal.QryEndereco.ParamByName('id').AsInteger  := DmPrincipal.QryDetalheidpessoa.AsInteger;
+//         DmPrincipal.QryEndereco.Open;
+//
+//         with  DmPrincipal.QryEndereco do
+//         begin
+//           Edit;
+//           DmPrincipal.QryEnderecodscep.AsString           := EdtCEP.Text;
+//           Post;
+//         end;
+//       end
+//       else
+//       begin
+//         DmPrincipal.QrySequencia.Close;
+//         DmPrincipal.QrySequencia.Open;
+//
+//         with  DmPrincipal.QryEndereco do
+//         begin
+//           Edit;
+//           DmPrincipal.QryEnderecoidendereco.AsInteger     :=  DmPrincipal.QrySequenciaMax.AsInteger;
+//           DmPrincipal.QryEnderecoidpessoa.AsInteger       :=  DmPrincipal.QrySequenciaMax.AsInteger;
+//           DmPrincipal.QryEnderecodscep.AsString           :=  EdtCEP.Text;
+//           Post;
+//         end;
+//       end;
+//   except
+//      Mensagem.Show(TIconDialog.Error, 'Atenção!','Erro ao gravar endereço!');
+//   end;
+end;
+
+procedure TFrmCad_Pessoas.GravarEnderecoIntegracao;
+begin
+//   try
+//     if EmEdicao then
+//     begin
+//         DmPrincipal.QryEndereco_Integracao.Close;
+//         DmPrincipal.QryEndereco_Integracao.SQL.Clear;
+//         DmPrincipal.QryEndereco_Integracao.SQL.Add('select * from endereco_integracao where idendereco = :id');
+//         DmPrincipal.QryEndereco_Integracao.ParamByName('id').AsInteger  := DmPrincipal.QryDetalheidpessoa.AsInteger;
+//         DmPrincipal.QryEndereco_Integracao.Open;
+//
+//         with  DmPrincipal.QryEndereco_Integracao do
+//         begin
+//           Edit;
+//           DmPrincipal.QryEndereco_Integracao.FieldByName('dsuf').AsString            := EdtUF.Text;
+//           DmPrincipal.QryEndereco_Integracao.FieldByName('nmcidade').AsString        := EdtCidade.Text;
+//           DmPrincipal.QryEndereco_Integracao.FieldByName('nmbairro').AsString        := EdtBairro.Text;
+//           DmPrincipal.QryEndereco_Integracao.FieldByName('nmlogradouro').AsString    := EdtEnd.Text;
+//           DmPrincipal.QryEndereco_Integracao.FieldByName('dscomplemento').AsString   := EdtComplemento.Text;
+//           Post;
+//         end;
+//     end
+//     else
+//     begin
+//       with  DmPrincipal.QryEndereco_Integracao do
+//       begin
+//         Edit;
+//         DmPrincipal.QryEndereco_Integracao.FieldByName('idendereco').AsInteger     := DmPrincipal.QrySequenciamax.AsInteger;
+//         DmPrincipal.QryEndereco_Integracao.FieldByName('dsuf').AsString            := EdtUF.Text;
+//         DmPrincipal.QryEndereco_Integracao.FieldByName('nmcidade').AsString        := EdtCidade.Text;
+//         DmPrincipal.QryEndereco_Integracao.FieldByName('nmbairro').AsString        := EdtBairro.Text;
+//         DmPrincipal.QryEndereco_Integracao.FieldByName('nmlogradouro').AsString    := EdtEnd.Text;
+//         DmPrincipal.QryEndereco_Integracao.FieldByName('dscomplemento').AsString   := EdtComplemento.Text;
+//         Post;
+//       end;
+//     end;
+//   except
+//      Mensagem.Show(TIconDialog.Error, 'Atenção!','Erro ao gravar endereço integração!');
+//   end;
+end;
+
+procedure TFrmCad_Pessoas.GravarPessoa;
+begin
+
+end;
+
+procedure TFrmCad_Pessoas.RectSalvarClick(Sender: TObject);
+begin
+  if ((EdtCEP.Text = '') or (EdtEnd.Text = '')) then
+  begin
+    Mensagem.Show(TIconDialog.Error, 'Atenção!','CEP ou Endereço está vázio!');
+    Abort;
+  end
+  else
+  begin
+    try
+      DmPessoa.InserirEditarPessoa;
+
+      TabAbas.GotoVisibleTab(0);
+
+      Mensagem.Show(TIconDialog.Success, 'Ok','Dados salvos!');
+
+      EmEdicao := False;
+
+      RectPesquisarClick(Sender);
+    except
+      Mensagem.Show(TIconDialog.Error, 'Opa','falha ao cadastrar!');
+    end;
+  end;
+end;
+
+end.

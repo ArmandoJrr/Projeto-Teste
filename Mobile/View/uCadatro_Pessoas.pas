@@ -13,8 +13,7 @@ uses
   REST.Response.Adapter, REST.Client, Data.Bind.ObjectScope,
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
-  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client,uFancyDialog,FireDAC.Phys.PG,
-  FireDAC.Phys.PGDef;
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client,uFancyDialog, REST.Utils;
 
 type
   TFrmCad_Pessoas = class(TForm)
@@ -66,7 +65,7 @@ type
     ListViewPessoas: TListView;
     Layout1: TLayout;
     Label2: TLabel;
-    Image1: TImage;
+    ImgNovaPessoa: TImage;
     LayCidade: TLayout;
     RectCidade: TRectangle;
     ShadowEffect9: TShadowEffect;
@@ -90,7 +89,7 @@ type
     MemTable: TFDMemTable;
     procedure RectCancelarClick(Sender: TObject);
     procedure RectSalvarClick(Sender: TObject);
-    procedure Image1Click(Sender: TObject);
+    procedure ImgNovaPessoaClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure RectPesquisarClick(Sender: TObject);
     procedure EdtDocumentoTyping(Sender: TObject);
@@ -100,17 +99,15 @@ type
       const AItem: TListViewItem);
     procedure RectExcluirClick(Sender: TObject);
   private
-    EmEdicao  : Boolean;
-    Mensagem: TFancyDialog;
     procedure ConsultarCEP(cep: string);
-    procedure LimparCampos;
-    procedure GravarPessoa;
     procedure ThreadPessoasTerminate(Sender: TObject);
-    procedure GravarEndereco;
-    procedure GravarEnderecoIntegracao;
-    procedure ExcluirPessoa(ID: Integer);
+    procedure SalvarIDPessoa;
     { Private declarations }
   public
+    IdPessoa  : Integer;
+    EmEdicao  : Boolean;
+    Mensagem: TFancyDialog;
+    procedure LimparCampos;
     { Public declarations }
   end;
 
@@ -121,7 +118,7 @@ implementation
 
 {$R *.fmx}
 
-uses uDmPrincipal, uFormat;
+uses uDmPrincipal, uFormat, uDmPessoa;
 
 procedure TFrmCad_Pessoas.EdtCEPExit(Sender: TObject);
 begin
@@ -181,25 +178,12 @@ begin
     end;
 end;
 
-procedure TFrmCad_Pessoas.Image1Click(Sender: TObject);
-var
-t : TThread;
+procedure TFrmCad_Pessoas.ImgNovaPessoaClick(Sender: TObject);
 begin
-  T := TThread.CreateAnonymousThread(procedure
-  begin
-     DmPrincipal.NovaPessoa;
+ EmEdicao := False;
 
-     EmEdicao := False;
-
-     T.Synchronize(TThread.Current, procedure
-     begin
-       LimparCampos;
-       TabAbas.GotoVisibleTab(1);
-     end);
-
-  end);
-
-  T.Start;
+ LimparCampos;
+ TabAbas.GotoVisibleTab(1);
 end;
 
 procedure TFrmCad_Pessoas.LimparCampos;
@@ -215,17 +199,27 @@ begin
   EdtComplemento.Text := EmptyStr;
 end;
 
+procedure TFrmCad_Pessoas.SalvarIDPessoa;
+begin
+  DmPrincipal.QrySequencia.Close;
+  DmPrincipal.QrySequencia.Open;
+
+  IdPessoa := DmPrincipal.QrySequenciaidpessoa.AsInteger;
+end;
+
 procedure TFrmCad_Pessoas.ListViewPessoasItemClick(const Sender: TObject;
   const AItem: TListViewItem);
 begin
    DmPrincipal.QryDetalhe.Close;
-   DmPrincipal.QryDetalhe.ParamByName('codigo').asInteger := AItem.TagString.ToInteger;;
+   DmPrincipal.QryDetalhe.ParamByName('codigo').asInteger := AItem.TagString.ToInteger;
    DmPrincipal.QryDetalhe.Open;
 
    if  DmPrincipal.QryDetalhe.IsEmpty then
    Exit;
 
    EmEdicao := True;
+
+   IdPessoa := AItem.TagString.ToInteger;
 
    EdtNome.Text        := DmPrincipal.QryDetalhenmprimeiro.AsString;
    EdtSobrenome.Text   := DmPrincipal.QryDetalhenmsegundo.AsString;
@@ -237,6 +231,13 @@ begin
    EdtBairro.Text      := DmPrincipal.QryDetalhenmbairro.AsString;
    EdtComplemento.Text := DmPrincipal.QryDetalhedscomplemento.AsString;
 
+   if DmPrincipal.QryDetalheflnatureza.AsInteger = 1 then
+   begin
+     CBNaturezaPessoas.ItemIndex := 0;
+   end
+   else
+     CBNaturezaPessoas.ItemIndex := 1;
+
    TabAbas.GotoVisibleTab(1);
 end;
 
@@ -246,26 +247,9 @@ begin
   TabAbas.GotoVisibleTab(0);
 end;
 
-procedure TFrmCad_Pessoas.ExcluirPessoa(ID : Integer);
-begin
-  try
-   DmPrincipal.QryExcluirPessoa.Close;
-   DmPrincipal.QryExcluirPessoa.ParamByName('pessoa').AsInteger := ID;
-   DmPrincipal.QryExcluirPessoa.ExecSql;
-
-   LimparCampos;
-
-   TabAbas.GotoVisibleTab(0);
-
-   Mensagem.Show(TIconDialog.Success, 'OK','Registro excluído!');
-  except
-    Mensagem.Show(TIconDialog.Error, 'Atenção!','Erro ao excluir!');
-  end;
-end;
-
 procedure TFrmCad_Pessoas.RectExcluirClick(Sender: TObject);
 begin
-  ExcluirPessoa(DmPrincipal.QryDetalheIdPessoa.AsInteger);
+  DmPessoa.ExcluirPessoa(DmPrincipal.QryDetalheIdPessoa.AsInteger);
 
   RectPesquisarClick(Sender);
 end;
@@ -281,7 +265,13 @@ begin
         end;
     end;
 
-    with DmPrincipal.QryPessoas do
+    if DmPrincipal.MemTablePessoas.IsEmpty then
+    begin
+      Mensagem.Show(TIconDialog.Error, 'Atenção', 'zero registros');
+      Exit;
+    end;
+
+    with DmPrincipal.MemTablePessoas do
     begin
         ListViewPessoas.items.Clear;
         ListViewPessoas.BeginUpdate;
@@ -290,8 +280,9 @@ begin
 
         while NOT Eof do
         begin
-          DmPrincipal.AddPessoas(DmPrincipal.QryPessoasnmprimeiro.AsString +' '+DmPrincipal.QryPessoasnmsegundo.AsString,
-                                 DmPrincipal.QryPessoasidpessoa.AsInteger);
+          DmPrincipal.AddPessoas(DmPrincipal.MemTablePessoas.fieldByName('nmprimeiro').AsString +' '+
+                                 DmPrincipal.MemTablePessoas.fieldByName('nmsegundo').AsString,
+                                 DmPrincipal.MemTablePessoas.fieldByName('idpessoa').AsInteger);
 
           Next;
         end;
@@ -313,113 +304,6 @@ begin
     t.Start;
 end;
 
-procedure TFrmCad_Pessoas.GravarEndereco;
-begin
-   try
-       if emEdicao then
-       begin
-         DmPrincipal.QryEndereco.Close;
-         DmPrincipal.QryEndereco.SQL.Clear;
-         DmPrincipal.QryEndereco.SQL.Add('select * from endereco where idendereco = :id');
-         DmPrincipal.QryEndereco.ParamByName('id').AsInteger  := DmPrincipal.QryDetalheidpessoa.AsInteger;
-         DmPrincipal.QryEndereco.Open;
-
-         with  DmPrincipal.QryEndereco do
-         begin
-           Edit;
-           DmPrincipal.QryEnderecodscep.AsString           := EdtCEP.Text;
-           Post;
-         end;
-       end
-       else
-       begin
-         DmPrincipal.QrySequencia.Close;
-         DmPrincipal.QrySequencia.Open;
-
-         with  DmPrincipal.QryEndereco do
-         begin
-           Edit;
-           DmPrincipal.QryEnderecoidendereco.AsInteger     :=  DmPrincipal.QrySequenciaMax.AsInteger;
-           DmPrincipal.QryEnderecoidpessoa.AsInteger       :=  DmPrincipal.QrySequenciaMax.AsInteger;
-           DmPrincipal.QryEnderecodscep.AsString           := EdtCEP.Text;
-           Post;
-         end;
-       end;
-   except
-      Mensagem.Show(TIconDialog.Error, 'Atenção!','Erro ao gravar endereço!');
-   end;
-end;
-
-procedure TFrmCad_Pessoas.GravarEnderecoIntegracao;
-begin
-   try
-     if EmEdicao then
-     begin
-         DmPrincipal.QryEndereco_Integracao.Close;
-         DmPrincipal.QryEndereco_Integracao.SQL.Clear;
-         DmPrincipal.QryEndereco_Integracao.SQL.Add('select * from endereco_integracao where idendereco = :id');
-         DmPrincipal.QryEndereco_Integracao.ParamByName('id').AsInteger  := DmPrincipal.QryDetalheidpessoa.AsInteger;
-         DmPrincipal.QryEndereco_Integracao.Open;
-
-         with  DmPrincipal.QryEndereco_Integracao do
-         begin
-           Edit;
-           DmPrincipal.QryEndereco_Integracao.FieldByName('dsuf').AsString            := EdtUF.Text;
-           DmPrincipal.QryEndereco_Integracao.FieldByName('nmcidade').AsString        := EdtCidade.Text;
-           DmPrincipal.QryEndereco_Integracao.FieldByName('nmbairro').AsString        := EdtBairro.Text;
-           DmPrincipal.QryEndereco_Integracao.FieldByName('nmlogradouro').AsString    := EdtEnd.Text;
-           DmPrincipal.QryEndereco_Integracao.FieldByName('dscomplemento').AsString   := EdtComplemento.Text;
-           Post;
-         end;
-     end
-     else
-     begin
-       with  DmPrincipal.QryEndereco_Integracao do
-       begin
-         Edit;
-         DmPrincipal.QryEndereco_Integracao.FieldByName('idendereco').AsInteger     := DmPrincipal.QrySequenciamax.AsInteger;
-         DmPrincipal.QryEndereco_Integracao.FieldByName('dsuf').AsString            := EdtUF.Text;
-         DmPrincipal.QryEndereco_Integracao.FieldByName('nmcidade').AsString        := EdtCidade.Text;
-         DmPrincipal.QryEndereco_Integracao.FieldByName('nmbairro').AsString        := EdtBairro.Text;
-         DmPrincipal.QryEndereco_Integracao.FieldByName('nmlogradouro').AsString    := EdtEnd.Text;
-         DmPrincipal.QryEndereco_Integracao.FieldByName('dscomplemento').AsString   := EdtComplemento.Text;
-         Post;
-       end;
-     end;
-   except
-      Mensagem.Show(TIconDialog.Error, 'Atenção!','Erro ao gravar endereço integração!');
-   end;
-end;
-
-procedure TFrmCad_Pessoas.GravarPessoa;
-begin
-   try
-     if EmEdicao then
-     begin
-       DmPrincipal.QryPessoas.Close;
-       DmPrincipal.QryPessoas.SQL.Clear;
-       DmPrincipal.QryPessoas.SQL.Add('select * from pessoa where idpessoa = :id');
-       DmPrincipal.QryPessoas.ParamByName('id').AsInteger  := DmPrincipal.QryDetalheidpessoa.AsInteger;
-       DmPrincipal.QryPessoas.Open;
-     end;
-
-     DmPrincipal.QryPessoas.Edit;
-
-     if CBNaturezaPessoas.ItemIndex = 0 then
-        DmPrincipal.QryPessoas.FieldByName('flnatureza').AsInteger := 1 //Pessoa física
-     else
-        DmPrincipal.QryPessoas.FieldByName('flnatureza').AsInteger := 2; //Pessoa jurídica
-
-     DmPrincipal.QryPessoas.FieldByName('dsdocumento').AsString    := EdtDocumento.Text;
-     DmPrincipal.QryPessoas.FieldByName('nmprimeiro').AsString     := EdtNome.Text;
-     DmPrincipal.QryPessoas.FieldByName('nmsegundo').AsString      := EdtSobrenome.Text;
-     DmPrincipal.QryPessoas.FieldByName('dtregistro').AsDateTime   := Now;
-     DmPrincipal.QryPessoas.Post;
-   except
-       Mensagem.Show(TIconDialog.Error, 'Atenção!','Erro ao gravar!!');
-   end;
-end;
-
 procedure TFrmCad_Pessoas.RectSalvarClick(Sender: TObject);
 begin
   if ((EdtCEP.Text = '') or (EdtEnd.Text = '')) then
@@ -429,19 +313,19 @@ begin
   end
   else
   begin
-    GravarPessoa;
+    try
+      DmPessoa.InserirEditarPessoa;
 
-    GravarEndereco;
+      TabAbas.GotoVisibleTab(0);
 
-    GravarEnderecoIntegracao;
+      Mensagem.Show(TIconDialog.Success, 'Ok','Dados salvos!');
 
-    TabAbas.GotoVisibleTab(0);
+      EmEdicao := False;
 
-    Mensagem.Show(TIconDialog.Success, 'Ok','Dados salvos!');
-
-    EmEdicao := False;
-
-    RectPesquisarClick(Sender);
+      RectPesquisarClick(Sender);
+    except
+      Mensagem.Show(TIconDialog.Error, 'Opa','falha ao cadastrar!');
+    end;
   end;
 end;
 

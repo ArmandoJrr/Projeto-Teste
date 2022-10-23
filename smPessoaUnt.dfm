@@ -1,0 +1,182 @@
+object Paciente: TPaciente
+  Height = 309
+  Width = 579
+  object FDGUIxWaitCursor1: TFDGUIxWaitCursor
+    Provider = 'Forms'
+    Left = 344
+    Top = 64
+  end
+  object QryPessoas: TFDQuery
+    SQL.Strings = (
+      'select caso, nome, altura, pesoatual, pesoinicial, '
+      'pesoideal, imc from dados ')
+    Left = 80
+    Top = 128
+    object QryPessoasCASO: TIntegerField
+      FieldName = 'CASO'
+      Origin = 'CASO'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object QryPessoasNOME: TStringField
+      FieldName = 'NOME'
+      Origin = 'NOME'
+      Size = 50
+    end
+    object QryPessoasALTURA: TBCDField
+      FieldName = 'ALTURA'
+      Origin = 'ALTURA'
+      Precision = 18
+      Size = 2
+    end
+    object QryPessoasPESOATUAL: TBCDField
+      FieldName = 'PESOATUAL'
+      Origin = 'PESOATUAL'
+      Precision = 18
+      Size = 2
+    end
+    object QryPessoasPESOINICIAL: TBCDField
+      FieldName = 'PESOINICIAL'
+      Origin = 'PESOINICIAL'
+      Precision = 18
+      Size = 2
+    end
+    object QryPessoasPESOIDEAL: TBCDField
+      FieldName = 'PESOIDEAL'
+      Origin = 'PESOIDEAL'
+      Precision = 18
+      Size = 2
+    end
+    object QryPessoasIMC: TBCDField
+      FieldName = 'IMC'
+      Origin = 'IMC'
+      Precision = 18
+      Size = 2
+    end
+  end
+  object QryAtualizar: TFDUpdateSQL
+    InsertSQL.Strings = (
+      'INSERT INTO DADOS'
+      '(CASO, NOME)'
+      'VALUES (:NEW_CASO, :NEW_NOME)'
+      'RETURNING CASO, NOME')
+    ModifySQL.Strings = (
+      'UPDATE DADOS'
+      'SET CASO = :NEW_CASO, NOME = :NEW_NOME'
+      'WHERE CASO = :OLD_CASO'
+      'RETURNING CASO, NOME')
+    DeleteSQL.Strings = (
+      'DELETE FROM DADOS'
+      'WHERE CASO = :OLD_CASO')
+    FetchRowSQL.Strings = (
+      
+        'SELECT CASO, NOME, IDADE, DATANASC, SEXO, RACA, RG, PESOINICIAL,' +
+        ' ALTURA, '
+      '  PESOATUAL, TEMPOOBES, PESOIDEAL, CINTURA, QUADRIL, DIABETES, '
+      '  INSUFCARDIACA, ARRITIMIAS, APNEIASONO, FASE, ARTROSEJOELHOS, '
+      '  PATOLOGIACOLUNA, DISMENORREIA, HIPOTIROIDISMO, VARIZESMMII, '
+      
+        '  DEPRESSSAO, COLELITIASE, ESTERILIDADE, HIPERTARTERIAL, CORONAR' +
+        'IOPATIA, '
+      
+        '  DISPNEIA, BRONQUITEASMA, ARTOSETORNOZELO, DOENCAHEMORROIDARIA,' +
+        ' '
+      
+        '  HIRSUTISMO, HIPERTIROIDISMO, DRGE, TRANSTCOMERCOMP, ANTECCIRUR' +
+        'COLECISTECTOMIA, '
+      
+        '  ANTECCIRURDERMOLIPECTOMIA, ANTECCIRURMAMOPLASTIA, ANTECCIRURCE' +
+        'SARIA, '
+      
+        '  ANTECCIRURCESARIAQUANTAS, ANTECCIRUROUTRAS, TENTTRATCLINDIETA,' +
+        ' '
+      '  TENTTRATCLINDIETAQUAIS, TENTTRATCLINEXERC, TENTTRATCLINMEDIC, '
+      
+        '  TENTTRATCLINMEDICQUAIS, TENTTRATCLINMEDICQUANTAS, TENTTRATCLIN' +
+        'MEDICINTOL, '
+      
+        '  TENTTRATCLINMEDICINTOLQUAIS, TENTTRATCLINSPA, TENTTRATCLINSPAQ' +
+        'UANTAS, '
+      '  PESOMAXIMOATINGIDO, PESOANTES, DATAULTCONS, EMAGRECMAXIMOKG, '
+      '  EMAGRECMAXIMOTEMPO, EXAME, IMC, IMCMAXIMO'
+      'FROM DADOS'
+      'WHERE CASO = :CASO')
+    Left = 80
+    Top = 200
+  end
+  object fdqExames: TFDQuery
+    SQL.Strings = (
+      'select caso,data,glicemia,'
+      'colesteroltotal,hdl,ldl, triglicerides '#13#10#10
+      'from exames '
+      'where caso=:parCaso'
+      'order by data')
+    Left = 200
+    Top = 128
+    ParamData = <
+      item
+        Name = 'PARCASO'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end>
+    object fdqExamesCASO: TIntegerField
+      FieldName = 'CASO'
+      Origin = 'CASO'
+      Required = True
+    end
+    object fdqExamesDATA: TDateField
+      FieldName = 'DATA'
+      Origin = '"DATA"'
+      Required = True
+    end
+    object fdqExamesGLICEMIA: TBCDField
+      FieldName = 'GLICEMIA'
+      Origin = 'GLICEMIA'
+      Precision = 18
+      Size = 2
+    end
+    object fdqExamesCOLESTEROLTOTAL: TBCDField
+      FieldName = 'COLESTEROLTOTAL'
+      Origin = 'COLESTEROLTOTAL'
+      Precision = 18
+      Size = 2
+    end
+    object fdqExamesHDL: TBCDField
+      FieldName = 'HDL'
+      Origin = 'HDL'
+      Precision = 18
+      Size = 2
+    end
+    object fdqExamesLDL: TBCDField
+      FieldName = 'LDL'
+      Origin = 'LDL'
+      Precision = 18
+      Size = 2
+    end
+    object fdqExamesTRIGLICERIDES: TBCDField
+      FieldName = 'TRIGLICERIDES'
+      Origin = 'TRIGLICERIDES'
+      Precision = 18
+      Size = 2
+    end
+  end
+  object Conn: TFDConnection
+    Params.Strings = (
+      'Database=bancopg'
+      'User_Name=postgres'
+      'Password=102030'
+      'Server=127.0.0.1'
+      'Port=2020'
+      'DriverID=PG')
+    Connected = True
+    LoginPrompt = False
+    Left = 72
+    Top = 40
+  end
+  object FDPhysPgDriverLink1: TFDPhysPgDriverLink
+    VendorHome = 'D:\Projetos\TestePG\Win32\Debug'
+    Left = 200
+    Top = 40
+  end
+end

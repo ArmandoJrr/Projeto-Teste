@@ -8,7 +8,7 @@ uses
   Vcl.AppEvnts, Vcl.StdCtrls, IdHTTPWebBrokerBridge, IdGlobal, Web.HTTPApp;
 
 type
-  TForm1 = class(TForm)
+  TFrmPrincipal = class(TForm)
     ButtonStart: TButton;
     ButtonStop: TButton;
     EditPort: TEdit;
@@ -29,7 +29,7 @@ type
   end;
 
 var
-  Form1: TForm1;
+  FrmPrincipal: TFrmPrincipal;
 
 implementation
 
@@ -42,14 +42,14 @@ uses
   Datasnap.DSSession,
   System.Generics.Collections;
 
-procedure TForm1.ApplicationEventsIdle(Sender: TObject; var Done: Boolean);
+procedure TFrmPrincipal.ApplicationEventsIdle(Sender: TObject; var Done: Boolean);
 begin
   ButtonStart.Enabled := not FServer.Active;
   ButtonStop.Enabled := FServer.Active;
   EditPort.Enabled := not FServer.Active;
 end;
 
-procedure TForm1.ButtonOpenBrowserClick(Sender: TObject);
+procedure TFrmPrincipal.ButtonOpenBrowserClick(Sender: TObject);
 {$IFDEF MSWINDOWS}
 var
   LURL: string;
@@ -64,7 +64,7 @@ begin
 {$ENDIF}
 end;
 
-procedure TForm1.ButtonStartClick(Sender: TObject);
+procedure TFrmPrincipal.ButtonStartClick(Sender: TObject);
 begin
   StartServer;
 end;
@@ -75,24 +75,24 @@ begin
     TDSSessionManager.Instance.TerminateAllSessions;
 end;
 
-procedure TForm1.ButtonStopClick(Sender: TObject);
+procedure TFrmPrincipal.ButtonStopClick(Sender: TObject);
 begin
   TerminateThreads;
   FServer.Active := False;
   FServer.Bindings.Clear;
 end;
 
-procedure TForm1.FormCreate(Sender: TObject);
+procedure TFrmPrincipal.FormCreate(Sender: TObject);
 begin
   FServer := TIdHTTPWebBrokerBridge.Create(Self);
 end;
 
-procedure TForm1.StartServer;
+procedure TFrmPrincipal.StartServer;
 begin
   if not FServer.Active then
   begin
     FServer.Bindings.Clear;
-    FServer.DefaultPort := StrToInt(EditPort.Text);
+    FServer.DefaultPort := StrtoInt(EditPort.Text);
     FServer.Active := True;
   end;
 end;

@@ -1,0 +1,79 @@
+object DmPessoa: TDmPessoa
+  Height = 399
+  Width = 509
+  object RESTRequestEdicoes: TRESTRequest
+    AssignedValues = [rvConnectTimeout, rvReadTimeout]
+    Client = RESTClientEdicoes
+    Params = <>
+    Resource = 'Pessoas'
+    Response = RESTResponseEdicoes
+    SynchronizedEvents = False
+    Left = 280
+    Top = 160
+  end
+  object RESTResponseEdicoes: TRESTResponse
+    ContentType = 'application/json'
+    Left = 168
+    Top = 96
+  end
+  object RESTClientEdicoes: TRESTClient
+    Accept = 'application/json, text/plain; q=0.9, text/html;q=0.8,'
+    AcceptCharset = 'utf-8, *;q=0.8'
+    BaseURL = 'http://localhost:211/datasnap/rest/TServerMethods'
+    Params = <>
+    SynchronizedEvents = False
+    Left = 72
+    Top = 168
+  end
+  object QryPessoas: TFDQuery
+    SQL.Strings = (
+      'select * from pessoa where 1 = 2')
+    Left = 168
+    Top = 24
+    object QryPessoasidpessoa: TLargeintField
+      FieldName = 'idpessoa'
+      Origin = 'idpessoa'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+    end
+    object QryPessoasflnatureza: TSmallintField
+      FieldName = 'flnatureza'
+      Origin = 'flnatureza'
+    end
+    object QryPessoasdsdocumento: TWideStringField
+      FieldName = 'dsdocumento'
+      Origin = 'dsdocumento'
+    end
+    object QryPessoasnmprimeiro: TWideStringField
+      FieldName = 'nmprimeiro'
+      Origin = 'nmprimeiro'
+      Size = 100
+    end
+    object QryPessoasnmsegundo: TWideStringField
+      FieldName = 'nmsegundo'
+      Origin = 'nmsegundo'
+      Size = 100
+    end
+    object QryPessoasdtregistro: TDateField
+      FieldName = 'dtregistro'
+      Origin = 'dtregistro'
+    end
+  end
+  object MemTablePessoas: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 168
+    Top = 296
+  end
+  object RESTResponseDataSetAdapter: TRESTResponseDataSetAdapter
+    Dataset = MemTablePessoas
+    FieldDefs = <>
+    Response = RESTResponseEdicoes
+    Left = 168
+    Top = 216
+  end
+end

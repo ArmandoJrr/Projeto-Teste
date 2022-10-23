@@ -152,9 +152,6 @@ Coordinates=758,221,108,36
 [RectEnd]
 Coordinates=682,454,64,36
 
-[Image1]
-Coordinates=672,386,57,58
-
 [RectNome]
 Coordinates=597,454,75,36
 
@@ -202,4 +199,7 @@ Coordinates=336,522,120,36
 
 [DmPrincipal.]
 Coordinates=1074,10,148,58
+
+[ImgNovaPessoa]
+Coordinates=672,386,57,58
 
